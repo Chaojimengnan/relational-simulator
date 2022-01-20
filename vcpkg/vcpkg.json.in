@@ -1,0 +1,10 @@
+{
+  "name": "relational-simulator",
+  "version": "0.0.1",
+  "dependencies": [
+    "nlohmann-json",
+    "fmt",
+    "spdlog"
+    ${OPTION_DEPENDENCIES}
+  ]
+}
