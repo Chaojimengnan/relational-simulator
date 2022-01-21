@@ -114,7 +114,7 @@ const string_id<T>& id_interface<T>::get_id() const
 // Makes classes that inherit from this to manage the specified object
 template<typename T, template<typename> typename U>
 class object_manager_interface{
-public:
+protected:
     using object_type = T;
     using ptr_type = U<T>;
     using size_type = typename std::unordered_map<string_id<object_type>, ptr_type>::size_type;
@@ -125,7 +125,6 @@ public:
     void clear_objects() noexcept;
     size_type objects_counts() const noexcept;
 
-protected:
     // Call the member function for every object in the manager
     template<typename MemberType, typename... Args>
     void call_member_for_every_object(MemberType member_func, Args&&... args);

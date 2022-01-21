@@ -9,7 +9,7 @@ using namespace rela;
 
 TEST(world_test, base_test) 
 {
-    auto my_world = world::instance();
+    auto&& my_world = world::instance();
     std::vector<entity_id> entity_id_vec = {
         entity_id("Meng Nan"),
         entity_id("Long Long"),

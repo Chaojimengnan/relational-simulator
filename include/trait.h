@@ -12,14 +12,14 @@ public:
     [[nodiscard]] std::weak_ptr<trait> get_trait(const trait_id& trait_id);
 
 public:
-    void add_trait(ptr_type new_object) {
-        object_manager_interface::add_object(new_object);
+    void add_trait(ptr_type new_trait) {
+        object_manager_interface::add_object(new_trait);
     }
-    void remove_trait(const string_id<object_type>& object_id) noexcept {
-        object_manager_interface::remove_object(object_id);
+    void remove_trait(const trait_id& trait_id) noexcept {
+        object_manager_interface::remove_object(trait_id);
     }
-    bool has_same_trait(const string_id<object_type>& object_id) const {
-        return object_manager_interface::has_same_object(object_id);
+    bool has_same_trait(const trait_id& trait_id) const {
+        return object_manager_interface::has_same_object(trait_id);
     }
     void clear_traits() noexcept {
         object_manager_interface::clear_objects();

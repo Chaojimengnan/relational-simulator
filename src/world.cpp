@@ -15,7 +15,8 @@ void world::update()
     // Some updating work
     // ...
 
-    call_member_for_every_object(&entity::on_update);
+    entity_base::call_member_for_every_object(&entity::on_update);
+    // group_base::call_member_for_every_object(&entity_group::on_update);
 }
 
 
@@ -24,7 +25,8 @@ void world::start()
     // Some starting work
     // ...
 
-    call_member_for_every_object(&entity::on_start);
+    entity_base::call_member_for_every_object(&entity::on_start);
+    // group_base::call_member_for_every_object(&entity_group::on_start);
 }
 
 void world::end()
@@ -32,12 +34,13 @@ void world::end()
     // Some ending work
     // ...
 
-    call_member_for_every_object(&entity::on_end);
+    entity_base::call_member_for_every_object(&entity::on_end);
+    // group_base::call_member_for_every_object(&entity_group::on_end);
 }
 
 std::shared_ptr<entity> world::get_entity(const entity_id& entity_id) const
 {
-    return object_map_.at(entity_id);
+    return entity_base::object_map_.at(entity_id);
 }
 
 world::world()
