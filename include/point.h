@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 #include <utility>
 #include <string>
 #include <string_view>

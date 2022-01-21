@@ -1,12 +1,12 @@
 #pragma once
-#include <memory>
 #include "relafwd.h"
 #include "utility.h"
+#include "trait.h"
 #include "point.h"
 
 namespace rela{
 
-class entity : public id_interface<entity>, public object_manager_interface<trait, std::weak_ptr>
+class entity : public id_interface<entity>, protected object_manager_interface<trait, std::weak_ptr>
 {
     friend class world;
 public:
@@ -27,6 +27,23 @@ public:
     const point& get_pos() const;
     void set_pos(const point& new_pos);
 
+public:
+    void add_trait(ptr_type new_object) {
+        object_manager_interface::add_object(new_object);
+    }
+    void remove_trait(const string_id<object_type>& object_id) noexcept {
+        object_manager_interface::remove_object(object_id);
+    }
+    bool has_same_trait(const string_id<object_type>& object_id) const {
+        return object_manager_interface::has_same_object(object_id);
+    }
+    void clear_traits() noexcept {
+        object_manager_interface::clear_objects();
+    }
+    size_type trait_counts() const noexcept {
+        return object_manager_interface::objects_counts();
+    }
+
 protected:
     // Called when the world is updated
     virtual void on_update();
@@ -39,6 +56,14 @@ protected:
 
 private:
     point pos_;
+
+};
+
+
+
+class entity_group
+{
+public:
 
 };
 

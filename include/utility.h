@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <vector>
 #include <unordered_map>
 #include "exception.h"
+#include "relafwd.h"
 
 namespace rela{
 
@@ -121,7 +123,7 @@ public:
     void remove_object(const string_id<object_type>& object_id) noexcept;
     bool has_same_object(const string_id<object_type>& object_id) const;
     void clear_objects() noexcept;
-    size_type objects_size() const noexcept;
+    size_type objects_counts() const noexcept;
 
 protected:
     // Call the member function for every object in the manager
@@ -177,7 +179,7 @@ void object_manager_interface<T, U>::clear_objects() noexcept
 }
 
 template<typename T, template<typename> typename U>
-typename object_manager_interface<T, U>::size_type object_manager_interface<T, U>::objects_size() const noexcept
+typename object_manager_interface<T, U>::size_type object_manager_interface<T, U>::objects_counts() const noexcept
 {
     return object_map_.size();
 }
