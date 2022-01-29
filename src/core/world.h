@@ -13,6 +13,13 @@ public:
 
     static world& instance();
 
+    // Calls the specified function for each entity
+    template<typename Func>
+    void enumerate_entities(Func enumerate_func);
+    
+    [[nodiscard]] std::shared_ptr<entity> get_entity(const entity_id& entity_id) const;
+
+public:
     // Update the world!
     void update();
 
@@ -21,12 +28,6 @@ public:
 
     // End the world!
     void end();
-
-    // Calls the specified function for each entity
-    template<typename Func>
-    void enumerate_entities(Func enumerate_func);
-    
-    [[nodiscard]] std::shared_ptr<entity> get_entity(const entity_id& entity_id) const;
 
 public:
     void add_entity(std::shared_ptr<entity> new_entity) {

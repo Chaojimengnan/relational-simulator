@@ -11,7 +11,7 @@ trait_manager& trait_manager::instance()
 
 std::weak_ptr<trait> trait_manager::get_trait(const trait_id& trait_id)
 {
-    return object_map_.find(trait_id)->second;
+    return object_map_.at(trait_id);
 }
 
 trait_manager::trait_manager()

@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <string_view>
 #include <fmt/format.h>
+#include <cassert>
 
 namespace rela{
 

@@ -78,6 +78,7 @@ void entity::on_end()
 
 entity_group::entity_group(std::initializer_list<entity_id> entities_list) : id_interface("")
 {
+    assert(entities_list.size() > 0);
     std::ostringstream o;
     for (auto &&i : entities_list)
     {

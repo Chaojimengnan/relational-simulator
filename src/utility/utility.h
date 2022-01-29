@@ -139,9 +139,9 @@ void object_manager_interface<T, U>::add_object(ptr_type new_object)
     // so it's necessary to check if it is weak_ptr and special handling
     if constexpr (std::is_same_v<ptr_type, std::weak_ptr<T>>)
     {
-        if (!new_object.expired())
+        auto new_object_ptr = new_object.lock();
+        if (new_object_ptr)
         {
-            auto new_object_ptr = new_object.lock();
             auto object_id = new_object_ptr->get_id();
             if (!object_map_.insert(std::make_pair(object_id, std::move(new_object))).second)
             {
@@ -196,10 +196,9 @@ void object_manager_interface<T, U>::call_member_for_every_object(MemberType mem
         std::vector<string_id<object_type>> expired_list;
         for (auto &&[object_id, object] : object_map_)
         {
-            if (!object.expired())
+            auto object_ptr = object.lock();
+            if (object_ptr)
             {
-                auto object_ptr = object.lock();
-                // Unfortunately, smart pointer doesn't support '->*'
                 ((*object_ptr).*member_func)(std::forward<Args>(args)...);
             } else {
                 expired_list.push_back(object_id);
