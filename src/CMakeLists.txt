@@ -18,6 +18,10 @@ target_include_directories(${PROJECT_NAME}
         ${PROJECT_SOURCE_DIR}
 )
 
+if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_definitions(${PROJECT_NAME} PUBLIC NDEBUG)
+endif()
+
 target_link_libraries(${PROJECT_NAME} 
     PRIVATE
     rela::core
