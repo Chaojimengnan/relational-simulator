@@ -27,8 +27,8 @@ TEST(world_test, base_test)
 
     EXPECT_NO_THROW(my_world.remove_entity(entity_id("abc")));
 
-    EXPECT_FALSE(my_world.has_same_entity(entity_id("abc")));
-    EXPECT_TRUE(my_world.has_same_entity(entity_id("Meng Nan")));
+    EXPECT_FALSE(my_world.has_entity(entity_id("abc")));
+    EXPECT_TRUE(my_world.has_entity(entity_id("Meng Nan")));
 
     auto meng_nan = my_world.get_entity(entity_id("Meng Nan"));
     EXPECT_THROW(my_world.add_entity(meng_nan), has_same_string_id_error);

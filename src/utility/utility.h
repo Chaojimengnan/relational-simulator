@@ -111,17 +111,18 @@ const string_id<T>& id_interface<T>::get_id() const
 }
 
 
-// Makes classes that inherit from this to manage the specified object
+// Manage the specified object wrapped with smart pointer
 template<typename T, template<typename> typename U>
 class object_manager_interface{
-protected:
+public:
     using object_type = T;
     using ptr_type = U<T>;
     using size_type = typename std::unordered_map<string_id<object_type>, ptr_type>::size_type;
 
     void add_object(ptr_type new_object);
     void remove_object(const string_id<object_type>& object_id) noexcept;
-    bool has_same_object(const string_id<object_type>& object_id) const;
+    bool has_object(const string_id<object_type>& object_id) const;
+    [[nodiscard]] ptr_type get_object(const string_id<object_type>& object_id);
     void clear_objects() noexcept;
     size_type objects_counts() const noexcept;
 
@@ -133,7 +134,7 @@ protected:
 };
 
 template<typename T, template<typename> typename U>
-void object_manager_interface<T, U>::add_object(ptr_type new_object)
+inline void object_manager_interface<T, U>::add_object(ptr_type new_object)
 {
     // Because weak_ptr cannot get the ID directly, 
     // so it's necessary to check if it is weak_ptr and special handling
@@ -160,32 +161,38 @@ void object_manager_interface<T, U>::add_object(ptr_type new_object)
 
 
 template<typename T, template<typename> typename U>
-void object_manager_interface<T, U>::remove_object(const string_id<object_type>& object_id) noexcept
+inline void object_manager_interface<T, U>::remove_object(const string_id<object_type>& object_id) noexcept
 {
     object_map_.erase(object_id);
 }
 
 template<typename T, template<typename> typename U>
-bool object_manager_interface<T, U>::has_same_object(const string_id<object_type>& object_id) const
+inline bool object_manager_interface<T, U>::has_object(const string_id<object_type>& object_id) const
 {
     return object_map_.find(object_id) != object_map_.cend();
 }
 
 template<typename T, template<typename> typename U>
-void object_manager_interface<T, U>::clear_objects() noexcept
+inline typename object_manager_interface<T, U>::ptr_type object_manager_interface<T, U>::get_object(const string_id<object_type>& object_id)
+{
+    return object_map_.at(object_id);
+}
+
+template<typename T, template<typename> typename U>
+inline void object_manager_interface<T, U>::clear_objects() noexcept
 {
     object_map_.clear();
 }
 
 template<typename T, template<typename> typename U>
-typename object_manager_interface<T, U>::size_type object_manager_interface<T, U>::objects_counts() const noexcept
+inline typename object_manager_interface<T, U>::size_type object_manager_interface<T, U>::objects_counts() const noexcept
 {
     return object_map_.size();
 }
 
 template<typename T, template<typename> typename U>
 template<typename MemberType, typename... Args>
-void object_manager_interface<T, U>::call_member_for_every_object(MemberType member_func, Args&&... args)
+inline void object_manager_interface<T, U>::call_member_for_every_object(MemberType member_func, Args&&... args)
 {
     static_assert(std::is_member_function_pointer_v<MemberType>, 
         "member_func must be a member function pointer!");

@@ -7,12 +7,6 @@ trait_manager& trait_manager::instance()
     static trait_manager tm;
     return tm;
 }
-    
-
-std::weak_ptr<trait> trait_manager::get_trait(const trait_id& trait_id)
-{
-    return object_map_.at(trait_id);
-}
 
 trait_manager::trait_manager()
 {

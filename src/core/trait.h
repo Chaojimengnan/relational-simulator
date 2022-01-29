@@ -5,30 +5,34 @@
 namespace rela{
 
 
-class trait_manager : protected object_manager_interface<trait, std::shared_ptr>{
+class trait_manager{
 public:
+    using trait_map_t = object_manager_interface<trait, std::shared_ptr>;
     static trait_manager& instance();
 
-    [[nodiscard]] std::weak_ptr<trait> get_trait(const trait_id& trait_id);
-
 public:
-    void add_trait(ptr_type new_trait) {
-        object_manager_interface::add_object(new_trait);
+    void add_trait(trait_map_t::ptr_type new_trait) {
+        trait_map_.add_object(new_trait);
     }
     void remove_trait(const trait_id& trait_id) noexcept {
-        object_manager_interface::remove_object(trait_id);
+       trait_map_.remove_object(trait_id);
     }
-    bool has_same_trait(const trait_id& trait_id) const {
-        return object_manager_interface::has_same_object(trait_id);
+    bool has_trait(const trait_id& trait_id) const {
+        return trait_map_.has_object(trait_id);
+    }
+    [[nodiscard]] std::weak_ptr<trait> get_trait(const trait_id& trait_id)
+    {
+        return trait_map_.get_object(trait_id);
     }
     void clear_traits() noexcept {
-        object_manager_interface::clear_objects();
+        trait_map_.clear_objects();
     }
-    size_type trait_counts() const noexcept {
-        return object_manager_interface::objects_counts();
+    trait_map_t::size_type trait_counts() const noexcept {
+        return trait_map_.objects_counts();
     }
 
 private:
+    trait_map_t trait_map_;
     trait_manager();
 };
 
